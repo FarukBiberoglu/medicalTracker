@@ -1,0 +1,11 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../enum/main_navigation_enum.dart';
+import 'navigation_cubit_state.dart';
+
+class NavigationCubit extends Cubit<NavigationState> {
+  NavigationCubit() : super(const NavigationState(selectedIndex: MainNavigationEnum.home));
+
+  void setSelectedIndex(MainNavigationEnum index) {
+    emit(state.copyWith(selectedIndex: index));
+  }
+}

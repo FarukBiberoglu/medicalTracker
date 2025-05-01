@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const primaryColor = Color(0xff692960);
+  static const Color primaryColor = Color(0xFF00B4D8); // Canlı açık mavi
 
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
@@ -39,15 +39,15 @@ class AppTheme {
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24),
-        borderSide: BorderSide.none,
+        borderSide: const BorderSide(color: Colors.black12),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24),
-        borderSide: BorderSide.none,
+        borderSide: const BorderSide(color: Colors.black12),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(24),
-        borderSide: const BorderSide(color: primaryColor),
+        borderSide: const BorderSide(color: Colors.black12),
       ),
       hintStyle: TextStyle(
         color: Colors.grey[600],
