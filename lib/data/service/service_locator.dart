@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:untitled19/data/cache/hive_cache_service.dart';
+import 'package:untitled19/data/service/notification_service.dart';
 import '../../firebase_options.dart';
 import '../../presentation/authentication/cubit/auth/auth_cubit.dart';
 import '../../presentation/authentication/cubit/chat/chat_cubit.dart';
@@ -15,10 +17,14 @@ final getIt = GetIt.instance;
 
 Future<void> setupServiceLocator() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+    await NotificationService.I.init() ;
+    final cacheService = HiveCacheService();
+    await cacheService.init();
+  getIt.registerLazySingleton(()=>cacheService);
   getIt.registerLazySingleton(() => AppRouter());
   getIt.registerLazySingleton<FirebaseFirestore>(
           () => FirebaseFirestore.instance);

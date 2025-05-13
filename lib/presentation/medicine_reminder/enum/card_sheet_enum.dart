@@ -1,0 +1,4 @@
+enum CardEnum {
+  Cancel,
+  Delete
+}

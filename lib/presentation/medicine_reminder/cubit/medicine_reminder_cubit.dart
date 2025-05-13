@@ -1,46 +1,85 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:untitled19/data/cache/hive_cache_service.dart';
+import 'package:untitled19/data/service/notification_service.dart';
+import 'package:untitled19/data/service/service_locator.dart';
+import 'package:untitled19/presentation/medicine_reminder/enum/select_medicine.dart';
 import 'package:untitled19/presentation/medicine_reminder/enum/type_enum.dart';
 import 'package:untitled19/presentation/medicine_reminder/model/medicine_reminder_model.dart';
+import 'medicine_reminder_cubit_state.dart';
 
-import 'medicine_reminder_cubit.dart';
-import 'medicine_reminder_cubit_view.dart';
 
 class MedicineReminderCubit extends Cubit<MedicineReminderCubitState> {
-  MedicineReminderCubit() : super(const MedicineReminderCubitState());
-
+  MedicineReminderCubit()
+      : super( MedicineReminderCubitState(
+    selectedMedicine: SelectMedicine.capcule,
+    medicineModel: [],
+  ))
+  {
+    emit(state.copyWith(medicineModel:getIt.get<HiveCacheService>().loadMedicine  ));
+  }
   final TextEditingController medicineNameController = TextEditingController();
   final TextEditingController doseController = TextEditingController();
   final TextEditingController medicineDateController = TextEditingController();
   final TextEditingController commentsController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
-  // Ilaç Adı
+
+  void deleteMedicine(MedicineReminderModel medicine) {
+    final updatedList = List<MedicineReminderModel>.from(state.medicineModel)..remove(medicine);
+    getIt.get<HiveCacheService>().removeMedicine(medicine.id);
+    emit(state.copyWith(
+      medicineModel: updatedList,
+    ));
+  }
+  void completeMedicine(MedicineReminderModel medicine){
+   final int index =  state.medicineModel.indexOf(medicine);
+   final updatedList = List<MedicineReminderModel>.from(state.medicineModel)..remove(medicine)..insert(index, medicine.copyWith(isCompleted: !medicine.isCompleted) );
+   getIt.get<HiveCacheService>().updateMedicine(medicine.copyWith(isCompleted: !medicine.isCompleted));
+   emit(state.copyWith(
+     medicineModel: updatedList,
+
+   ));
+  }
+
+
+  void onChangedSearchController(String value) {
+    emit(state.copyWith(search: value));
+  }
+
+  void selectDate(DateTime date){
+    emit(state.copyWith(selectDateTime: date));
+  }
+
+
   void medicineName(String value) {
     emit(state.copyWith(medicineName: value));
   }
 
-  // Doz
   void dose(int value) {
     emit(state.copyWith(dose: value));
   }
 
-  void selectedType ( TypeEnum type){
+  void selectMedicine(SelectMedicine value) {
+    emit(state.copyWith(selectedMedicine: value));
+  }
+
+  void selectedType(TypeEnum type) {
     emit(state.copyWith(selectedType: type));
   }
-  // İlaç Tarihi
+
   void onChangedMedicineDate(DateTime value) {
-    medicineDateController.text = DateFormat("dd.MM.yyyy HH:mm").format(value);
+    medicineDateController.text = DateFormat("dd.MM.yyyy ").format(value);
     emit(state.copyWith(medicineDate: value));
   }
 
-  // Type Seçimi (tabs, piece, mg, gr)
-
-
-  // Yorumlar
   void comments(String value) {
     emit(state.copyWith(comments: value));
   }
+
+
 
   void resetValues() {
     emit(state.copyWith(
@@ -57,33 +96,34 @@ class MedicineReminderCubit extends Cubit<MedicineReminderCubitState> {
   }
 
 
-  void deleteMedicine(MedicineReminderModel medicine) {
-    final updatedList = List<MedicineReminderModel>.from(state.medicineModel)..remove(medicine);
-    emit(state.copyWith(medicineModel: updatedList));
-  }
+
+
 
   void addMedicine() {
+    final newModel = MedicineReminderModel(
+      selectMedicine: state.selectedMedicine ,
+      medicineDate: state.medicineDate ?? DateTime.now(),
+      comments: state.comments ?? "",
+      dose: state.dose ?? 0,
+      medicineName: state.medicineName ?? '',
+      type: state.selectedType ?? TypeEnum.Gr,
+    );
+    NotificationService.I.scheduleOneTimeNotification(dateTime: state.medicineDate ?? DateTime.now(),title: state.medicineName,body: state.comments);
+    getIt.get<HiveCacheService>().saveMedicine(newModel);
+    final updatedList = [...state.medicineModel, newModel];
+
     emit(state.copyWith(
-      medicineModel: [
-        ...state.medicineModel,
-        MedicineReminderModel(
-          medicineDate: state.medicineDate ?? DateTime.now(),
-          comments: state.comments ??"",
-          dose: state.dose ?? 0, // Doğru alan ve tipi
-          medicineName: state.medicineName ?? '',
-          type: state.selectedType ?? TypeEnum.gr,
-        )
-      ],
+      medicineModel: updatedList,
       medicineName: null,
       medicineDate: null,
       comments: null,
     ));
 
+
     doseController.clear();
     medicineNameController.clear();
     medicineDateController.clear();
     commentsController.clear();
+
   }
-
-
 }

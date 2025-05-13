@@ -1,6 +1,6 @@
 enum MainNavigationEnum {
+  profile,
   home,
   appointment,
-  plan,
-  ayar
+  chat,
 }

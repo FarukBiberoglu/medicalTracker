@@ -36,12 +36,7 @@ class CustomTextField extends StatelessWidget {
           color: Colors.grey.shade500,
           fontSize: 16,
         ),
-        labelText: hintText,  // Hint text'in yerine label ekleyelim.
-        labelStyle: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Colors.grey.shade700,
-        ),
+       
         prefixIcon: prefixIcon != null
             ? IconTheme(
           data: IconThemeData(color: Colors.blueAccent.shade100),
@@ -64,7 +59,7 @@ class CustomTextField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(24),
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
+            color: Colors.grey.withValues(alpha: 0.2),
             width: 2,
           ),
         ),

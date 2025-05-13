@@ -5,8 +5,9 @@ import 'package:untitled19/presentation/authentication/cubit/auth/auth_cubit_sta
 import 'package:untitled19/presentation/authentication/login_screen.dart';
 import 'package:untitled19/presentation/main/cubit/navigation_cubit.dart';
 import 'package:untitled19/presentation/main/view/main_view.dart';
-import 'package:untitled19/presentation/medicine/cubit/appointment_cubit.dart';
+import 'package:untitled19/presentation/appointment/cubit/appointment_cubit.dart';
 import 'package:untitled19/presentation/medicine_reminder/cubit/medicine_reminder_cubit.dart';
+import 'package:untitled19/presentation/profile/cubit/profile_cubit.dart';
 import 'package:untitled19/router/app_router.dart';
 import 'config/theme/app_theme.dart';
 import 'data/repositories/auth_repositories.dart';
@@ -20,7 +21,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -28,9 +29,9 @@ class MyApp extends StatelessWidget {
       },
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (_)=> ProfileCubit()),
           BlocProvider(create: (_) => MedicineReminderCubit()),
-
-          BlocProvider(create: (_) => RandevuCubit()),
+          BlocProvider(create: (_) => AppointmentCubit()),
           BlocProvider(create: (_) => NavigationCubit()),
           BlocProvider(create: (_) => AuthCubit(authRepository: AuthRepository())),
         ],
@@ -40,7 +41,6 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           home: BlocBuilder<AuthCubit, AuthState>(
-            bloc: getIt<AuthCubit>(),
             builder: (context, state) {
               if (state.status == AuthStatus.initial) {
                 return const Scaffold(
@@ -48,11 +48,12 @@ class MyApp extends StatelessWidget {
                 );
               }
               if (state.status == AuthStatus.authenticated) {
-                return const MainView();
+                return MainView(); 
               }
               return const LoginView();
             },
           ),
+
         ),
       ),
     );

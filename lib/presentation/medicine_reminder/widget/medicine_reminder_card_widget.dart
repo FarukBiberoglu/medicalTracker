@@ -1,126 +1,180 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:intl/intl.dart';
-import '../model/medicine_reminder_model.dart';
+
+import 'package:untitled19/core/constant/app_colors_constant.dart';
+import 'package:untitled19/data/cache/hive_cache_service.dart';
+import 'package:untitled19/data/service/service_locator.dart';
+
+import 'package:untitled19/presentation/medicine_reminder/cubit/medicine_reminder_cubit.dart';
+
+import 'package:untitled19/presentation/medicine_reminder/model/medicine_reminder_model.dart';
+
+
 
 class MedicineCard extends StatelessWidget {
-  final MedicineReminderModel medicine;
-
-  const MedicineCard({super.key, required this.medicine});
-
+  final MedicineReminderModel medicineReminder;
+  const MedicineCard({Key? key, required this.medicineReminder})
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.white, Colors.green.shade50],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.green.withOpacity(0.1),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Başlık
-              Center(
-                child: Text(
-                  medicine.medicineName,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.teal.shade800,
+    return Card(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),
+      ),
+      color: Colors.white,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '${medicineReminder.dose}',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      medicineReminder.type.name,
+
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 14),
+                Expanded(
+                  child: Text(
+                    maxLines: 1,
+                    medicineReminder.medicineName,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              // Grid yapısı için Wrap veya Table kullanılabilir
-              Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                children: [
-                  _InfoBox(
-                    icon: Icons.medication,
-                    label: "Doz",
-                    value: "${medicine.dose} ${medicine.type.name}",
-                  ),
-                  _InfoBox(
-                    icon: Icons.calendar_today,
-                    label: "Tarih",
-                    value: DateFormat("dd.MM.yyyy").format(medicine.medicineDate),
-                  ),
-                  _InfoBox(
-                    icon: Icons.access_time,
-                    label: "Saat",
-                    value: DateFormat("HH:mm").format(medicine.medicineDate),
-                  ),
-                  if (medicine.comments != null && medicine.comments!.isNotEmpty)
-                    _InfoBox(
-                      icon: Icons.note,
-                      label: "Not",
-                      value: medicine.comments!,
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const Icon(Icons.access_time, size: 16, color: Colors.grey),
+                    const SizedBox(width: 6),
+                    Text(
+                      DateFormat('HH:mm').format(medicineReminder.medicineDate),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black54,
+                      ),
                     ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        medicineReminder.comments,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black54,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Image.asset(medicineReminder.selectMedicine.asset),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
-    );
-  }
-}
 
-class _InfoBox extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
+          Positioned(
+            top: 12,
+            right: 4,
+            child: IconButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(24),
+                    ),
+                  ),
+                  builder: (_) {
+                    return Padding(
+                      padding:  EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ListTile(
+                            leading: Icon(
+                              medicineReminder.isCompleted
+                                  ? Icons.check_circle
+                                  : Icons.check_circle_outline_rounded,
+                              color: medicineReminder.isCompleted ? Colors.grey : Colors.green,
+                            ),
+                            title: Text(
+                              medicineReminder.isCompleted ? 'Uncompleted' : 'Completed',
 
-  const _InfoBox({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () {
+                              context.read<MedicineReminderCubit>().completeMedicine(medicineReminder);
+                              Navigator.pop(context);
+                            },
+                          ),
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 140,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.teal.shade50,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.teal.shade100),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 18, color: Colors.teal),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: TextStyle(fontSize: 14, color: Colors.teal.shade800),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: Colors.teal.shade900,
+                          ListTile(
+                              leading: const Icon(
+                                Icons.delete_forever,
+                                color: Colors.red,
+                              ),
+                              title: const Text(
+                                'Delete',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              onTap: () {
+                                context.read<MedicineReminderCubit>().deleteMedicine(medicineReminder);
+                                Navigator.pop(context);
+                              },
+                            ),
+
+
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              icon:  Icon(medicineReminder.isCompleted ? Icons.check_circle : Icons.more_vert,color: medicineReminder.isCompleted ? Colors.green : Colors.grey),
             ),
           ),
         ],

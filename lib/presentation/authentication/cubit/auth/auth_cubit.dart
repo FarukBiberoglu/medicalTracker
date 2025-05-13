@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../../../data/repositories/auth_repositories.dart';
 import '../../../../data/service/service_locator.dart';
 import 'auth_cubit_state.dart';
@@ -31,7 +32,7 @@ class AuthCubit extends Cubit<AuthState> {
                 user: userData,
               ));
             } catch (e) {
-              emit(state.copyWith(status: AuthStatus.error, error: e.toString()));
+              emit(state.copyWith(status: AuthStatus.unauthenticated, error: e.toString()));
             }
           } else {
             emit(state.copyWith(
@@ -79,9 +80,9 @@ class AuthCubit extends Cubit<AuthState> {
           email: email,
           phoneNumber: phoneNumber,
           password: password);
-      await signOut();
 
       emit(state.copyWith(
+        status: AuthStatus.unauthenticated,
         user: user,
       ));
     } catch (e) {
@@ -91,9 +92,9 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signOut() async {
     try {
-      print(getIt<AuthRepository>().currentUser?.uid ?? "randomtext");
+      print(getIt<AuthRepository>().currentUser?.uid ?? "asasa");
       await _authRepository.singOut();
-      print(getIt<AuthRepository>().currentUser?.uid ?? "randomtext");
+      print(getIt<AuthRepository>().currentUser?.uid ?? "asasa");
       emit(
         state.copyWith(
           status: AuthStatus.unauthenticated,

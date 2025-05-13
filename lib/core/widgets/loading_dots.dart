@@ -54,7 +54,7 @@ class _LoadingDotsState extends State<LoadingDots>
               height: 4,
               margin: const EdgeInsets.symmetric(horizontal: 2),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withOpacity(
+                color: Theme.of(context).primaryColor.withValues(alpha:
                   0.3 + (0.7 * animation.value),
                 ),
                 shape: BoxShape.circle,

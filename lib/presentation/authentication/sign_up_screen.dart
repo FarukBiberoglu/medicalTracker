@@ -7,7 +7,6 @@ import '../../core/widgets/custom_text_field_widget.dart';
 import '../../core/utils/ui_utils.dart';
 import '../../data/service/service_locator.dart';
 import '../../router/app_router.dart';
-import '../chat/chat_view.dart';
 import 'cubit/auth/auth_cubit.dart';
 import 'cubit/auth/auth_cubit_state.dart';
 
@@ -111,6 +110,7 @@ class _SignupScreenState extends State<SignupScreen> {
           phoneNumber: phoneController.text,
           password: passwordController.text,
         );
+        Navigator.pop(context);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

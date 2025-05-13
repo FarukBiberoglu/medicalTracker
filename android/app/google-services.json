@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "339370096722",
-    "project_id": "finalproject-64a52",
-    "storage_bucket": "finalproject-64a52.firebasestorage.app"
+    "project_number": "412678977056",
+    "project_id": "randevuapp-16826",
+    "storage_bucket": "randevuapp-16826.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:339370096722:android:42825725e9a1b79344478b",
+        "mobilesdk_app_id": "1:412678977056:android:d3d3a9ae9ac3c57975ae45",
         "android_client_info": {
           "package_name": "com.example.untitled19"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAuAkIjxtzf45yv_MGMsQQRccWb3ipSqK0"
+          "current_key": "AIzaSyDJx8ZqLle72ZvFkG2vaT_4oCrjnnM4IK0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412678977056:android:4de26c635910492675ae45",
+        "android_client_info": {
+          "package_name": "com.example.untitled30"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJx8ZqLle72ZvFkG2vaT_4oCrjnnM4IK0"
         }
       ],
       "services": {
