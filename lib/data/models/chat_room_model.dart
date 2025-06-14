@@ -28,6 +28,7 @@ class ChatRoomModel {
         participantsName = participantsName ?? {};
 
   factory ChatRoomModel.fromFirestore(DocumentSnapshot doc) {
+
     final data = doc.data() as Map<String, dynamic>;
     return ChatRoomModel(
       id: doc.id,

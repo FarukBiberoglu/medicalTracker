@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled19/presentation/chat_detail/widget/chat_app_bar.dart';
 import 'package:untitled19/presentation/chat_detail/widget/chat_input_widget.dart';
 import 'package:untitled19/presentation/chat_detail/widget/message_list_widget.dart';
-import '../../../data/models/chat_message.dart';
+import '../../../data/models/chat_message_model.dart';
 import '../../../data/service/service_locator.dart';
-import '../../authentication/cubit/chat/chat_cubit.dart';
-import '../../authentication/cubit/chat/chat_cubit_state.dart';
+import '../../chat/cubit/chat_cubit.dart';
+import '../../chat/cubit/chat_cubit_state.dart';
 
 class ChatDetailView extends StatefulWidget {
   final String receiverId;

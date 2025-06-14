@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:untitled19/core/enum/role_enum.dart';
 import '../models/user_model.dart';
 import '../service/base_repository.dart';
 
@@ -7,22 +8,21 @@ class AuthRepository extends BaseRepository {
   Stream<User?> get authStateChanges => auth.authStateChanges();
 
   Future<UserModel> signUp({
+    required RoleEnum role,
     required String fullName,
-    required String username,
     required String email,
     required String phoneNumber,
     required String password,
+    String? specialization,
   }) async {
     try {
-      final formattedPhoneNumber = phoneNumber.replaceAll(
-        RegExp(r'\s+'),
-        "".trim(),
-      );
+      final formattedPhoneNumber = phoneNumber.replaceAll(RegExp(r'\s+'), "".trim());
 
       final emailExists = await checkEmailExists(email);
       if (emailExists) {
         throw "An account with the same email already exists";
       }
+
       final phoneNumberExists = await checkPhoneExists(formattedPhoneNumber);
       if (phoneNumberExists) {
         throw "An account with the same phone already exists";
@@ -32,18 +32,22 @@ class AuthRepository extends BaseRepository {
         email: email,
         password: password,
       );
+
       if (userCredential.user == null) {
         throw "Failed to create user";
       }
 
       final user = UserModel(
+        role: role,
         uid: userCredential.user!.uid,
-        username: username,
         fullName: fullName,
         email: email,
         phoneNumber: formattedPhoneNumber,
+        specialization: specialization,
       );
+
       await saveUserData(user);
+
       return user;
     } catch (e) {
       log(e.toString());
@@ -53,29 +57,35 @@ class AuthRepository extends BaseRepository {
 
   Future<bool> checkEmailExists(String email) async {
     try {
-      // ignore: deprecated_member_use
       final methods = await auth.fetchSignInMethodsForEmail(email);
       return methods.isNotEmpty;
     } catch (e) {
+      print("Error checking email: $e");
       return false;
     }
   }
 
   Future<bool> checkPhoneExists(String phoneNumber) async {
     try {
-      final formattedPhoneNumber = phoneNumber.replaceAll(
-        RegExp(r'\s+'),
-        "".trim(),
-      );
-      final querySnapshot =
-          await firestore
-              .collection("users")
-              .where("phoneNumber", isEqualTo: formattedPhoneNumber)
-              .get();
+      final formattedPhoneNumber =
+      phoneNumber.replaceAll(RegExp(r'\s+'), "".trim());
+      final querySnapshot = await firestore
+          .collection("users")
+          .where("phoneNumber", isEqualTo: formattedPhoneNumber)
+          .get();
 
       return querySnapshot.docs.isNotEmpty;
     } catch (e) {
+      print("Error checking email: $e");
       return false;
+    }
+  }
+
+  Future<void> updateUserModel (UserModel user) async{
+    try {
+     return firestore.collection("users").doc(user.uid).update(user.toMap());
+    } catch (e) {
+      throw "Failed to save user data";
     }
   }
 
@@ -85,9 +95,7 @@ class AuthRepository extends BaseRepository {
   }) async {
     try {
       final userCredential = await auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+          email: email, password: password);
       if (userCredential.user == null) {
         throw "User not found";
       }
@@ -106,6 +114,8 @@ class AuthRepository extends BaseRepository {
       throw "Failed to save user data";
     }
   }
+
+
 
   Future<void> singOut() async {
     await auth.signOut();

@@ -1,8 +1,7 @@
-
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:untitled19/core/enum/role_enum.dart';
 import '../../../../data/repositories/auth_repositories.dart';
 import '../../../../data/service/service_locator.dart';
 import 'auth_cubit_state.dart';
@@ -10,7 +9,7 @@ import 'auth_cubit_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository _authRepository;
-  StreamSubscription<User?>? _authStateSubscription;
+  StreamSubscription<User?>? authStateSubscription;
 
   AuthCubit({
     required AuthRepository authRepository,
@@ -22,7 +21,7 @@ class AuthCubit extends Cubit<AuthState> {
   void _init() {
     emit(state.copyWith(status: AuthStatus.initial));
 
-    _authStateSubscription =
+    authStateSubscription =
         _authRepository.authStateChanges.listen((user) async {
           if (user != null) {
             try {
@@ -66,29 +65,36 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signUp({
     required String email,
-    required String username,
     required String fullName,
     required String phoneNumber,
     required String password,
+    required RoleEnum role,
+    String? specialization,
   }) async {
     try {
       emit(state.copyWith(status: AuthStatus.loading));
 
       final user = await _authRepository.signUp(
-          fullName: fullName,
-          username: username,
-          email: email,
-          phoneNumber: phoneNumber,
-          password: password);
+        role: role,
+        fullName: fullName,
+        email: email,
+        phoneNumber: phoneNumber,
+        password: password,
+        specialization: specialization,
+      );
 
       emit(state.copyWith(
-        status: AuthStatus.unauthenticated,
+        status: AuthStatus.authenticated,
         user: user,
       ));
     } catch (e) {
-      emit(state.copyWith(status: AuthStatus.error, error: e.toString()));
+      emit(state.copyWith(
+        status: AuthStatus.error,
+        error: e.toString(),
+      ));
     }
   }
+
 
   Future<void> signOut() async {
     try {

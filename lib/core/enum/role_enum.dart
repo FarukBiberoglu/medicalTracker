@@ -1,0 +1,4 @@
+enum RoleEnum {
+  doktor,
+  hasta,
+}

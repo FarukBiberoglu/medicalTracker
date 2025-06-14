@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../models/chat_message.dart';
+import '../models/chat_message_model.dart';
 import '../models/chat_room_model.dart';
 import '../models/user_model.dart';
 import '../service/base_repository.dart';
@@ -15,7 +14,6 @@ class ChatRepository extends BaseRepository {
 
   Future<ChatRoomModel> getOrCreateChatRoom(
       String currentUserId, String otherUserId) async {
-    // Prevent creating a chat room with yourself
     if (currentUserId == otherUserId) {
       throw Exception("Cannot create a chat room with yourself");
     }
@@ -114,6 +112,7 @@ class ChatRepository extends BaseRepository {
         .orderBy('timestamp', descending: true)
         .startAfterDocument(lastDocument)
         .limit(20);
+    print("comingg");
     final snapshot = await query.get();
     return snapshot.docs.map((doc) => ChatMessage.fromFirestore(doc)).toList();
   }
@@ -149,6 +148,7 @@ class ChatRepository extends BaseRepository {
       )
           .where('status', isEqualTo: MessageStatus.sent.toString())
           .get();
+      print("found ${unreadMessages.docs.length} unread messages");
 
       for (final doc in unreadMessages.docs) {
         batch.update(doc.reference, {
@@ -158,6 +158,7 @@ class ChatRepository extends BaseRepository {
 
         await batch.commit();
 
+        print("Marked messaegs as read for user $userId");
       }
     } catch (e) {}
   }
@@ -188,6 +189,7 @@ class ChatRepository extends BaseRepository {
     try {
       final doc = await _chatRooms.doc(chatRoomId).get();
       if (!doc.exists) {
+        print("chat room does not exist");
         return;
       }
       await _chatRooms.doc(chatRoomId).update({
@@ -195,6 +197,7 @@ class ChatRepository extends BaseRepository {
         'typingUserId': isTyping ? userId : null,
       });
     } catch (e) {
+      print("error updating typing status");
     }
   }
 

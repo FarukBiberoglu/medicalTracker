@@ -8,6 +8,11 @@ class AppColors {
   static const Color whatsappMessageColor = Color(0xFFA7E7AE);
 
   static const Color primary = Color(0xFF00B4D8); 
-  static const Color secondary = Color(0xFF0077B6); 
+  static const Color secondary = Color(0xFF0077B6);
+  static const Color appBarGrey = Color(0xFFEEEEEE);
+  static const Color White = Color(0xFFFFFFFF);
+  static const Color Black= Color(0xFF000000);
+
+  static const backGround = Colors.white;
 
 }

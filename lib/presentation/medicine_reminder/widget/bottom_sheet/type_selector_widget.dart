@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:untitled19/core/constant/app_colors_constant.dart';
 import 'package:untitled19/presentation/medicine_reminder/cubit/medicine_reminder_cubit.dart';
 import 'package:untitled19/presentation/medicine_reminder/cubit/medicine_reminder_cubit_state.dart';
-import 'package:untitled19/presentation/medicine_reminder/enum/type_enum.dart';
 
+import 'package:untitled19/core/enum/type_enum.dart';
 
 class TypeSelectorField extends StatelessWidget {
   const TypeSelectorField({super.key});
@@ -24,25 +25,32 @@ class TypeSelectorField extends StatelessWidget {
                 builder: (_) {
                   return ListView(
                     shrinkWrap: true,
-                    children: TypeEnum.values.map((type) {
-                      return ListTile(
-                        title: Text(
-                          type.name,
-                          style: TextStyle(
-                            color: state.selectedType == type
-                                ? AppColors.primary
-                                : Colors.black,
-                            fontWeight: state.selectedType == type
-                                ? FontWeight.bold
-                                : FontWeight.normal,
+                    children: [
+                      for (var type in TypeEnum.values) ...[
+                        ListTile(
+                          title: Text(
+                            type.name,
+                            style: GoogleFonts.nunito(
+                              fontSize: 15,
+                              fontWeight: state.selectedType == type ? FontWeight.w700 : FontWeight.w400,
+                              color: state.selectedType == type ? AppColors.primary : Colors.black87,
+                            ),
                           ),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            context.read<MedicineReminderCubit>().selectedType(type);
+                          },
                         ),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          context.read<MedicineReminderCubit>().selectedType(type);
-                        },
-                      );
-                    }).toList(),
+                        if (type != TypeEnum.values.last)
+                          Divider(
+                            height: 1,
+                            thickness: 0.5,
+                            color: Colors.grey.shade300,
+                            indent: 16,
+                            endIndent: 16,
+                          ),
+                      ],
+                    ],
                   );
                 },
               );

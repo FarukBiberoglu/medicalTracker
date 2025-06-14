@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled19/core/widgets/text_field/custom_textfield.dart';
 import 'package:untitled19/presentation/medicine_reminder/cubit/medicine_reminder_cubit.dart';
-import 'package:untitled19/presentation/medicine_reminder/widget/text_field_widget.dart';
 
 
 class MedicineDoseField extends StatelessWidget {
@@ -12,7 +12,7 @@ class MedicineDoseField extends StatelessWidget {
     final cubit = context.read<MedicineReminderCubit>();
 
     return Expanded(
-      child: CustomField(
+      child: CustomTextFields(
         keyboardType: TextInputType.phone,
         controller: cubit.doseController,
         label: 'Dose',

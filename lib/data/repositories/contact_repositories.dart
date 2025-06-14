@@ -1,6 +1,6 @@
-
-import'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+
 
 import '../models/user_model.dart';
 import '../service/base_repository.dart';
@@ -20,48 +20,43 @@ class ContactRepository extends BaseRepository {
         return [];
       }
 
-      // Get device contacts with phone numbers
       final contacts = await FlutterContacts.getContacts(
         withProperties: true,
         withPhoto: true,
       );
 
-      // Extract phone numbers and normalize them
       final phoneNumbers = contacts
           .where((contact) => contact.phones.isNotEmpty)
           .map((contact) => {
         'name': contact.displayName,
         'phoneNumber': contact.phones.first.number
             .replaceAll(RegExp(r'[^\d+]'), ''),
-        'photo': contact.photo, // Store contact photo if available
+        'photo': contact.photo,
       })
           .toList();
 
-      // Get all users from Firestore
       final usersSnapshot = await firestore.collection('users').get();
 
       final registeredUsers = usersSnapshot.docs
           .map((doc) => UserModel.fromFirestore(doc))
           .toList();
 
-      // Match contacts with registered users
       final matchedContacts = phoneNumbers.where((contact) {
         String phoneNumber =
-        contact["phoneNumber"].toString(); // Ensure it's a String
+        contact["phoneNumber"].toString();
 
-        // Remove +91 if present
-        if (phoneNumber.startsWith("+90")) {
-          phoneNumber = phoneNumber.substring(2);
+        if (phoneNumber.startsWith("+91")) {
+          phoneNumber = phoneNumber.substring(3);
         }
 
         return registeredUsers.any((user) =>
-        user.phoneNumber == phoneNumber);
+        user.phoneNumber == phoneNumber && user.uid != currentUserId);
       }).map((contact) {
         String phoneNumber =
-        contact["phoneNumber"].toString(); // Ensure it's a String
+        contact["phoneNumber"].toString();
 
-        if (phoneNumber.startsWith("+90")) {
-          phoneNumber = phoneNumber.substring(2);
+        if (phoneNumber.startsWith("+91")) {
+          phoneNumber = phoneNumber.substring(3);
         }
 
         final registeredUser = registeredUsers

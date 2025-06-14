@@ -1,29 +1,19 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:intl/intl.dart';
-
 import 'package:untitled19/core/constant/app_colors_constant.dart';
-import 'package:untitled19/data/cache/hive_cache_service.dart';
-import 'package:untitled19/data/service/service_locator.dart';
-
+import 'package:untitled19/core/widgets/sizedbox/directional_sizedbox.dart';
 import 'package:untitled19/presentation/medicine_reminder/cubit/medicine_reminder_cubit.dart';
-
-import 'package:untitled19/presentation/medicine_reminder/model/medicine_reminder_model.dart';
-
-
+import 'package:untitled19/data/models/medicine_reminder_model.dart';
 
 class MedicineCard extends StatelessWidget {
   final MedicineReminderModel medicineReminder;
-  const MedicineCard({Key? key, required this.medicineReminder})
-    : super(key: key);
+  const MedicineCard({super.key, required this.medicineReminder});
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       color: Colors.white,
       child: Stack(
         children: [
@@ -45,14 +35,14 @@ class MedicineCard extends StatelessWidget {
                       ),
                       child: Text(
                         '${medicineReminder.dose}',
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: AppColors.primary,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    DirectionalSizedBox(8),
                     Text(
                       medicineReminder.type.name,
 
@@ -65,7 +55,7 @@ class MedicineCard extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 14),
+                DirectionalSizedBox(14),
                 Expanded(
                   child: Text(
                     maxLines: 1,
@@ -77,7 +67,7 @@ class MedicineCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
+                DirectionalSizedBox(8),
                 Row(
                   children: [
                     const Icon(Icons.access_time, size: 16, color: Colors.grey),
@@ -91,7 +81,7 @@ class MedicineCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                DirectionalSizedBox(20),
                 Row(
                   children: [
                     Expanded(
@@ -104,7 +94,7 @@ class MedicineCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    DirectionalSizedBox(8),
                     SizedBox(
                       width: 50,
                       height: 50,
@@ -130,7 +120,7 @@ class MedicineCard extends StatelessWidget {
                   ),
                   builder: (_) {
                     return Padding(
-                      padding:  EdgeInsets.all(24),
+                      padding: EdgeInsets.all(24),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -139,42 +129,57 @@ class MedicineCard extends StatelessWidget {
                               medicineReminder.isCompleted
                                   ? Icons.check_circle
                                   : Icons.check_circle_outline_rounded,
-                              color: medicineReminder.isCompleted ? Colors.grey : Colors.green,
+                              color:
+                                  medicineReminder.isCompleted
+                                      ? Colors.grey
+                                      : Colors.green,
                             ),
                             title: Text(
-                              medicineReminder.isCompleted ? 'Uncompleted' : 'Completed',
+                              medicineReminder.isCompleted
+                                  ? 'Uncompleted'
+                                  : 'Completed',
 
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             onTap: () {
-                              context.read<MedicineReminderCubit>().completeMedicine(medicineReminder);
+                              context
+                                  .read<MedicineReminderCubit>()
+                                  .completeMedicine(medicineReminder);
                               Navigator.pop(context);
                             },
                           ),
 
                           ListTile(
-                              leading: const Icon(
-                                Icons.delete_forever,
-                                color: Colors.red,
-                              ),
-                              title: const Text(
-                                'Delete',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              onTap: () {
-                                context.read<MedicineReminderCubit>().deleteMedicine(medicineReminder);
-                                Navigator.pop(context);
-                              },
+                            leading: const Icon(
+                              Icons.delete_forever,
+                              color: Colors.red,
                             ),
-
-
+                            title: const Text(
+                              'Delete',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () {
+                              context
+                                  .read<MedicineReminderCubit>()
+                                  .deleteMedicine(medicineReminder);
+                              Navigator.pop(context);
+                            },
+                          ),
                         ],
                       ),
                     );
                   },
                 );
               },
-              icon:  Icon(medicineReminder.isCompleted ? Icons.check_circle : Icons.more_vert,color: medicineReminder.isCompleted ? Colors.green : Colors.grey),
+              icon: Icon(
+                medicineReminder.isCompleted
+                    ? Icons.check_circle
+                    : Icons.more_vert,
+                color:
+                    medicineReminder.isCompleted ? Colors.green : Colors.grey,
+              ),
             ),
           ),
         ],

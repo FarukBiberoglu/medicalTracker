@@ -1,25 +1,25 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:untitled19/data/cache/hive_cache_service.dart';
-import 'package:untitled19/data/service/notification_service.dart';
 import 'package:untitled19/data/service/service_locator.dart';
-import 'package:untitled19/presentation/medicine_reminder/enum/select_medicine.dart';
-import 'package:untitled19/presentation/medicine_reminder/enum/type_enum.dart';
-import 'package:untitled19/presentation/medicine_reminder/model/medicine_reminder_model.dart';
+import 'package:untitled19/data/models/medicine_reminder_model.dart';
+import '../../../core/cache/hive_cache_service.dart';
+import 'package:untitled19/core/enum/select_medicine.dart';
+import 'package:untitled19/core/enum/type_enum.dart';
+import '../../../core/service/notification/notification_service.dart';
 import 'medicine_reminder_cubit_state.dart';
 
 
 class MedicineReminderCubit extends Cubit<MedicineReminderCubitState> {
   MedicineReminderCubit()
-      : super( MedicineReminderCubitState(
-    selectedMedicine: SelectMedicine.capcule,
-    medicineModel: [],
-  ))
-  {
-    emit(state.copyWith(medicineModel:getIt.get<HiveCacheService>().loadMedicine  ));
+      : super(MedicineReminderCubitState(selectedMedicine: SelectMedicine.capcule,    medicineModel: [],
+  )) {
+    final loadMedicine = getIt.get<HiveCacheService>().loadMedicine;
+    emit(state.copyWith(medicineModel: loadMedicine));
   }
+
   final TextEditingController medicineNameController = TextEditingController();
   final TextEditingController doseController = TextEditingController();
   final TextEditingController medicineDateController = TextEditingController();

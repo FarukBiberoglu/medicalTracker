@@ -6,12 +6,8 @@ import 'package:untitled19/presentation/medicine_reminder/widget/reminder_app_ba
 
 class MedicineReminderView extends StatelessWidget {
   const MedicineReminderView({super.key});
-
   @override
   Widget build(BuildContext context) {
-
-  
-
     return Scaffold(
       appBar: ReminderAppBar(),
       floatingActionButton: const MedicineFloatButton(),

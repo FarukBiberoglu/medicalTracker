@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:untitled19/core/constant/app_colors_constant.dart';
 import 'package:untitled19/core/extantions/date_extantion.dart';
+import 'package:untitled19/core/extension/padding_extension.dart';
+import 'package:untitled19/core/widgets/sizedbox/directional_sizedbox.dart';
+import 'package:untitled19/core/widgets/text_field/custom_search_field.dart';
 import 'package:untitled19/presentation/medicine_reminder/cubit/medicine_reminder_cubit.dart';
 import 'package:untitled19/presentation/medicine_reminder/cubit/medicine_reminder_cubit_state.dart';
 import 'package:untitled19/presentation/medicine_reminder/widget/medicine_reminder_card_widget.dart';
-import 'package:untitled19/presentation/medicine_reminder/widget/search_field_widget.dart';
 
 
 class MedicineReminderBody extends StatelessWidget {
@@ -20,9 +22,7 @@ class MedicineReminderBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Custom Search Field
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+        SizedBox(
           child: CustomSearchField(
             controller: context.read<MedicineReminderCubit>().searchController,
             hintText: 'Search medicine...',
@@ -30,74 +30,66 @@ class MedicineReminderBody extends StatelessWidget {
               context.read<MedicineReminderCubit>().onChangedSearchController(value);
             },
           ),
-        ),
+        ).symmetricPadding(horizontal: 12),
 
-        const SizedBox(height: 12),
-
-        // Horizontal Scroll for Date Selection
+        DirectionalSizedBox(12),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              children: last7Days.map((date) {
-                final isSelected = context.watch<MedicineReminderCubit>().state.selectDateTime.isSameDay(date);
-                return GestureDetector(
-                  onTap: () {
-                    context.read<MedicineReminderCubit>().selectDate(date);
-                  },
-                  child: Container(
-                    width: 48,
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    decoration: BoxDecoration(
-                      color: isSelected ? AppColors.primary : Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        if (isSelected)
-                          BoxShadow(
-                            color: Colors.blueAccent.withOpacity(0.3),
-                            blurRadius: 6,
-                            offset: const Offset(0, 3),
-                          ),
-                      ],
-                      border: Border.all(
-                        color: isSelected ? AppColors.primary : Colors.grey.shade300,
-                        width: 1.2,
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          DateFormat('EEE').format(date), // Mon, Tue...
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                            color: isSelected ? Colors.white : Colors.black87,
-                          ),
+          child: Row(
+            children: last7Days.map((date) {
+              final isSelected = context.watch<MedicineReminderCubit>().state.selectDateTime.isSameDay(date);
+              return GestureDetector(
+                onTap: () {
+                  context.read<MedicineReminderCubit>().selectDate(date);
+                },
+                child: Container(
+                  width: 48,
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    color: isSelected ? AppColors.primary : Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      if (isSelected)
+                        BoxShadow(
+                          color: Colors.blueAccent.withValues(alpha: 0.3),
+                          blurRadius: 6,
+                          offset: const Offset(0, 3),
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${date.day}', // 1, 2, 3...
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: isSelected ? Colors.white : Colors.black,
-                          ),
-                        ),
-                      ],
+                    ],
+                    border: Border.all(
+                      color: isSelected ? AppColors.primary : Colors.grey.shade300,
+                      width: 1.2,
                     ),
                   ),
-                );
-              }).toList(),
-            ),
-          ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        DateFormat('EEE').format(date), // Mon, Tue...
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: isSelected ? Colors.white : Colors.black87,
+                        ),
+                      ),
+                      DirectionalSizedBox(4),
+                      Text(
+                        '${date.day}', // 1, 2, 3...
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: isSelected ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ).symmetricPadding(horizontal: 8),
         ),
-
-        const SizedBox(height: 12),
-
-        // Expanded Grid View for Medicine Cards
+         DirectionalSizedBox(12),
         Expanded(
           child: BlocBuilder<MedicineReminderCubit, MedicineReminderCubitState>(
             builder: (context, state) {
@@ -109,7 +101,6 @@ class MedicineReminderBody extends StatelessWidget {
               if (list.isEmpty) {
                 return const Center(child: Text('No medicine found.'));
               }
-
               return GridView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

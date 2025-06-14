@@ -1,17 +1,37 @@
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:untitled19/core/enum/blood_type_enum.dart';
+import 'package:untitled19/core/enum/gender_enum.dart';
+import 'package:untitled19/core/enum/role_enum.dart';
+import 'package:untitled19/data/models/user_model.dart';
 import 'package:untitled19/presentation/profile/cubit/profile_cubit_state.dart';
-import 'package:untitled19/presentation/profile/enum/blood_type_enum.dart';
-import 'package:untitled19/presentation/profile/enum/gender_enum.dart';
-import 'package:untitled19/presentation/profile/model/profile_model.dart';
+import '../../../core/router/app_router.dart';
+import '../../../data/repositories/auth_repositories.dart';
+import '../../../data/service/service_locator.dart';
+import '../../authentication/cubit/auth/auth_cubit.dart';
 
 class ProfileCubit extends Cubit<ProfileCubitState> {
   ProfileCubit() : super(ProfileCubitState(
     gender: GenderEnum.Male,
     bloodType: BloodTypeEnum.ABPositive
-  ));
+  ))
+  {
+    final uid = getIt<AppRouter>().navigatorKey.currentState!.context.read<AuthCubit>().state.user?.uid;
+    if (uid != null) {
+      getIt.get<AuthRepository>().getUserData(uid).then((e) {
+        if (e != null) {
+          emit(state.copyWith(userModel: e));
+        }
+      }).catchError((e) {
+        print('Profil verisi çekilirken hata: $e');
+      });
+    }
 
+  }
+  final FirebaseStorage _storage = FirebaseStorage.instance;
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
@@ -20,7 +40,6 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
   final TextEditingController weightController = TextEditingController();
   final TextEditingController sizeController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
-  final ImagePicker _imagePicker = ImagePicker();
 
 
   void selectedGender(GenderEnum gender) {
@@ -49,63 +68,68 @@ class ProfileCubit extends Cubit<ProfileCubitState> {
   }
 
   void userHeight(int height) {
-  emit(state.copyWith(height: height)); 
+  emit(state.copyWith(height: height));
 }
-
-
   void disease(String value) {
     emit(state.copyWith(disease: value));
   }
 
- void addProfile() {
-  if (state.firstName == null || state.lastName == null || state.age == null) {
-    emit(state.copyWith(errorMessage: () => "Please fill all required fields"));
-    return;
-  }
+  Future<void> addProfile() async{
+    final  filePath = state.imagePath;
 
-  final newModel = ProfileModel(
-    location:  state.location ?? '',
-    height:  state.height ?? 0,
-    weight: state.weight ?? 0,
-    firstName: state.firstName ?? '',
-    lastName: state.lastName ?? '',
-    disease: state.disease ?? '',
-    age: state.age ?? 0,
-    bloodType: state.bloodType ?? BloodTypeEnum.ABNegative,
-    gender: state.gender ?? GenderEnum.Male,
-  );
+    final ref = _storage.ref().child('profile_images/${state.fileName}');
+    final uploadTask = filePath==null ?null : ref.putFile(File(filePath));
+    final snapshot = await uploadTask;
+    final downloadUrl = await snapshot?.ref.getDownloadURL();
+    final newModel = UserModel(
+      phoneNumber:getIt<AppRouter>().navigatorKey.currentState!.context.read<AuthCubit>().state.user?.phoneNumber ??'',
+      email: getIt<AppRouter>().navigatorKey.currentState!.context.read<AuthCubit>().state.user?.email ??'',
+      role: RoleEnum.hasta,
+      uid: getIt<AppRouter>().navigatorKey.currentState!.context.read<AuthCubit>().state.user?.uid ?? '',
+      imagePath: downloadUrl,
+      location:  state.location ?? '',
+      height:  state.height ?? 0,
+      weight: state.weight ?? 0,
+      fullName: (state.firstName ?? '')+ '\t'+( state.lastName ?? ''),
+      disease: state.disease ?? '',
+      age: state.age ?? 0,
+      bloodType: state.bloodType ?? BloodTypeEnum.ABNegative,
+      gender: state.gender ?? GenderEnum.Male,
 
-  final updatedList = [...state.profileModel, newModel];
+    );
+    await getIt.get<AuthRepository>().updateUserModel(newModel);
 
-  emit(state.copyWith(
-    location: null,
-    height: null,
-    weight: null,
-    profileModel: updatedList,
-    firstName: null,
-    lastName: null,
-    bloodType: null,
-    disease: null,
-    age: null,
-    gender: null,
-    imagePath: null,
-  ));
+    emit(state.copyWith(
+      location: null,
+      height: null,
+      weight: null,
+      firstName: null,
+      lastName: null,
+      bloodType: null,
+      disease: null,
+      age: null,
+      gender: null,
+      userModel: newModel,
+    ));
 
 
 }
-
-
   Future<void> pickImage() async {
     try {
-      final pickedImage = await _imagePicker.pickImage(
-          source: ImageSource.gallery);
+      final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedImage == null) return;
 
-      if (pickedImage != null) {
-        emit(state.copyWith(imagePath: () => pickedImage.path));
-      }
-    } catch (e) {
-      emit(state.copyWith(errorMessage: () => 'error '));
+      final filePath = pickedImage.path;
+      final fileName = pickedImage.name;
+      emit(state.copyWith(imagePath: filePath,fileName: fileName));
+
+
+    } catch (e, st) {
+      print('Resim seçme ve yükleme hatası: $e\n$st');
+      emit(state.copyWith(errorMessage: 'Resim seçme ve yükleme hatası'));
     }
   }
+  }
 
-}
+
+

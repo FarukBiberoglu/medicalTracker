@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:untitled19/core/constant/app_colors_constant.dart';
 
 class ImageCardWidget extends StatelessWidget {
   const ImageCardWidget({
@@ -41,7 +43,12 @@ class ImageCardWidget extends StatelessWidget {
           padding: const EdgeInsets.only(top: 8.0),
           child: Text(
             title,
-            style: TextStyle(color: Colors.grey),
+            style: GoogleFonts.raleway(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: AppColors.grey,
+            ),
+
           ),
         ),
       ],

@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:untitled19/presentation/profile/enum/blood_type_enum.dart';
-import 'package:untitled19/presentation/profile/enum/gender_enum.dart';
-import '../model/profile_model.dart';
+import 'package:untitled19/data/models/user_model.dart';
+import 'package:untitled19/core/enum/blood_type_enum.dart';
+import 'package:untitled19/core/enum/gender_enum.dart';
 
 class ProfileCubitState extends Equatable {
   final int? weight;
   final int? height;
   final String? imagePath;
+  final String? imageUrl;
   final String? errorMessage;
   final String? firstName;
   final String? lastName;
@@ -15,16 +15,19 @@ class ProfileCubitState extends Equatable {
   final String? disease;
   final BloodTypeEnum? bloodType;
   final GenderEnum? gender;
-  final List<ProfileModel> profileModel;
+  final UserModel? userModel;
   final String? location;
+  final String? fileName;
 
-  ProfileCubitState({
+  const ProfileCubitState({
+    this.fileName,
+    this.imageUrl,
     this.location,
     this.height,
     this.weight,
     this.imagePath,
     this.errorMessage,
-    this.profileModel = const [],
+    this.userModel,
     this.firstName,
     this.lastName,
     this.age,
@@ -34,37 +37,43 @@ class ProfileCubitState extends Equatable {
   });
 
   ProfileCubitState copyWith({
+    String? fileName,
+    String? imageUrl,
     String? location,
     int? height,
     int? weight,
-    ValueGetter<String?>? imagePath,
-    ValueGetter<String?>? errorMessage,
+    String? imagePath,
+    String? errorMessage,
     String? firstName,
     String? lastName,
     int? age,
     String? disease,
     BloodTypeEnum? bloodType,
     GenderEnum? gender,
-    List<ProfileModel>? profileModel,
+    UserModel? userModel,
   }) {
     return ProfileCubitState(
-      location:  location ?? this.location,
+      fileName: fileName ?? this.fileName,
+      imageUrl: imageUrl ?? this.imageUrl,
+      location: location ?? this.location,
       height: height ?? this.height,
       weight: weight ?? this.weight,
-      imagePath: imagePath == null ? this.imagePath : imagePath.call(),
-      errorMessage: errorMessage == null ? this.errorMessage : errorMessage.call(),
+      imagePath: imagePath ?? this.imagePath,
+      errorMessage: errorMessage ?? this.errorMessage,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       age: age ?? this.age,
       disease: disease ?? this.disease,
       bloodType: bloodType ?? this.bloodType,
       gender: gender ?? this.gender,
-      profileModel: profileModel ?? this.profileModel,
+      userModel: userModel ?? this.userModel,
     );
   }
 
   @override
   List<Object?> get props => [
+    fileName,
+    imageUrl,
     location,
     weight,
     height,
@@ -76,6 +85,6 @@ class ProfileCubitState extends Equatable {
     disease,
     bloodType,
     gender,
-    profileModel,
+    userModel,
   ];
 }

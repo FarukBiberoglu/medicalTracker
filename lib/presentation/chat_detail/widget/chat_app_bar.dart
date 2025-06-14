@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../authentication/cubit/chat/chat_cubit.dart';
-import '../../authentication/cubit/chat/chat_cubit_state.dart';
+import 'package:untitled19/core/constant/app_colors_constant.dart';
+import '../../chat/cubit/chat_cubit.dart';
+import '../../chat/cubit/chat_cubit_state.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String receiverName;
@@ -80,7 +81,7 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                                     ),
                                     TextButton(
                                       onPressed: () => Navigator.pop(context, true),
-                                      child: const Text("Block", style: TextStyle(color: Colors.red)),
+                                      child:  Text("Block", style: TextStyle(color: AppColors.primary)),
                                     ),
                                   ],
                                 ),

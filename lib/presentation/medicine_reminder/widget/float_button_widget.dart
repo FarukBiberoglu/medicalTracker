@@ -11,7 +11,7 @@ class MedicineFloatButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: AppColors.secondary,
+      backgroundColor: AppColors.primary,
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),

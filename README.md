@@ -1,16 +1,38 @@
-# untitled19
+🎯 Yeni Flutter projem: Akıllı Sağlık Takip Sistemi!
 
-A new Flutter project.
+Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları için iki farklı giriş ile kişiselleştirilmiş sağlık deneyimi sunmayı amaçlıyor.
 
-## Getting Started
+🩺 Hasta Paneli:
+👤 Profil Sayfası: Kullanıcılar kişisel ve sağlık bilgilerini düzenleyebiliyor.
 
-This project is a starting point for a Flutter application.
+📅 Randevu Sistemi: Sistemde kayıtlı doktorlar arasından seçim yaparak randevu oluşturulabiliyor ve detaylara erişilebiliyor.
 
-A few resources to get you started if this is your first Flutter project:
+💊 İlaç Takip Sistemi: Belirlenen ilaç saatlerinde bildirim gönderimi ile kullanıcıya ilaç hatırlatması sağlanıyor.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+💬 Sohbet Modülü: Sistemdeki kişilerle birebir mesajlaşma imkanı sunuluyor.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🩻 Doktor Paneli:
+🏠 Ana Sayfa: Günlük hasta randevuları ve planlama ekranı.
+
+📋 Randevu Listesi: Saat ve hasta bilgisiyle detaylı günlük randevu görünümü.
+
+📍 Chat + Konum Modülü: Hastalarla sohbet ve konum paylaşımı yapılabiliyor.
+
+⚙️ Kullanılan Teknolojiler:
+🔐 Firebase Auth – Kimlik doğrulama
+
+☁️ Cloud Firestore – Gerçek zamanlı veri tabanı
+
+🗂️ Firebase Storage – Profil görselleri ve medya yüklemeleri
+
+📦 Hive – Lokal veri yönetimi
+
+🔔 Flutter Local Notification – İlaç hatırlatma bildirimleri
+
+
+🔧 Teknik Mimariler
+🧱 Clean Architecture yaklaşımı
+
+🧪 Dependency Injection (Service Locator yaklaşımı)
+
+🔄 State Management: Cubit (flutter_bloc)

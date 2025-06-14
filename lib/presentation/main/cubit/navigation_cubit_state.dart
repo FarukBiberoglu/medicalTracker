@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../enum/main_navigation_enum.dart';
+import 'package:untitled19/core/enum/main_navigation_enum.dart';
 
 class NavigationState extends Equatable {
   final MainNavigationEnum selectedIndex;

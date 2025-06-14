@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:untitled19/presentation/medicine_reminder/enum/select_medicine.dart';
-import 'package:untitled19/presentation/medicine_reminder/enum/type_enum.dart';
-import 'package:untitled19/presentation/medicine_reminder/model/medicine_reminder_model.dart';
+import 'package:untitled19/data/models/medicine_reminder_model.dart';
+import 'package:untitled19/core/enum/select_medicine.dart';
+import 'package:untitled19/core/enum/type_enum.dart';
 
 class MedicineReminderCubitState extends Equatable {
   final String? medicineName;
@@ -24,10 +24,9 @@ class MedicineReminderCubitState extends Equatable {
     this.selectedType,
     this.comments,
     this.medicineModel = const [],
-    DateTime? selectDateTime, // <- buraya nullable olarak yazılır
-  }) : selectDateTime = selectDateTime ?? DateTime.now(); // <- burada atanır
+    DateTime? selectDateTime,
+  }) : selectDateTime = selectDateTime ?? DateTime.now();
 
-  // copyWith metodu
   MedicineReminderCubitState copyWith({
     String? search,
     DateTime? selectDateTime,
