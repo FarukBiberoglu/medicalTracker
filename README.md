@@ -40,8 +40,9 @@ Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları
 🔄 State Management: Cubit (flutter_bloc)
 
 
-## 📹 Video Tanıtım:
+3>📱 Uygulama Ekran Görüntüleri</h3>
 
-<video width="270" height="600" controls>
-  <source src="resource/video.mp4" type="video/mp4">
-</video>
+<p float="left">
+  < img src="resource/screen.jpg/" width="200">
+  < img src="resource/screens.jpg/" width="200">
+</p>
