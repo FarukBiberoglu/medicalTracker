@@ -16,7 +16,7 @@ Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları
 
 📋 Randevu Listesi: Saat ve hasta bilgisiyle detaylı günlük randevu görünümü.
 
-📍 Chat + Konum Modülü: Hastalarla sohbet ve konum paylaşımı yapılabiliyor.
+📍 Chat: Hastalarla sohbet ve konum paylaşımı yapılabiliyor.
 
 ⚙️ Kullanılan Teknolojiler:
 🔐 Firebase Auth – Kimlik doğrulama
