@@ -35,9 +35,9 @@ Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları
 🔧 Teknik Mimariler
 🧱 Clean Architecture yaklaşımı
 
-🧪 Dependency Injection (Service Locator yaklaşımı)
+🧪 Dependency Injection 
 
-🔄 State Management: Cubit (flutter_bloc)
+🔄 State Management: Cubit 
 
 
 📱 Hasta Paneli
