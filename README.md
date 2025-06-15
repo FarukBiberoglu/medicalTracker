@@ -1,4 +1,4 @@
-🎯 Yeni Flutter projem: Akıllı Sağlık Takip Sistemi!
+🎯Flutter: Akıllı Sağlık Takip Sistemi!
 
 Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları için iki farklı giriş ile kişiselleştirilmiş sağlık deneyimi sunmayı amaçlıyor.
 
