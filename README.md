@@ -43,6 +43,6 @@ Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları
 3>📱 Uygulama Ekran Görüntüleri</h3>
 
 <p float="left">
-  < img src="resource/screen.jpg/" width="200">
-  < img src="resource/screens.jpg/" width="200">
+  <img src="resource/screen.jpg/" width="200">
+  <img src="resource/screens.jpg/" width="200">
 </p>
