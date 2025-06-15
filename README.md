@@ -3,7 +3,8 @@
 Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları için iki farklı giriş ile kişiselleştirilmiş sağlık deneyimi sunmayı amaçlıyor.
 
 🩺 Hasta Paneli:
-👤 Profil Sayfası: Kullanıcılar kişisel ve sağlık bilgilerini düzenleyebiliyor.
+
+👤 Profil Sayfası: Kullanıcılar kişisel ve sağlık bilgilerini ekleyip düzenleyebiliyor.
 
 📅 Randevu Sistemi: Sistemde kayıtlı doktorlar arasından seçim yaparak randevu oluşturulabiliyor ve detaylara erişilebiliyor.
 
@@ -16,7 +17,8 @@ Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları
 
 📋 Randevu Listesi: Saat ve hasta bilgisiyle detaylı günlük randevu görünümü.
 
-📍 Chat: Hastalarla sohbet ve konum paylaşımı yapılabiliyor.
+💬 Sohbet Modülü: Sistemdeki kişilerle birebir mesajlaşma imkanı sunuluyor.
+
 
 ⚙️ Kullanılan Teknolojiler:
 🔐 Firebase Auth – Kimlik doğrulama
