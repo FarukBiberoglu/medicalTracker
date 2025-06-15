@@ -1,38 +1,38 @@
-Akıllı Sağlık Takip Sistemi — Flutter Mobil Uygulaması
+🎯Flutter: Akıllı Sağlık Takip Sistemi!
 
-Geliştirdiğim bu kapsamlı sağlık takip uygulaması, doktor ve hasta kullanıcılarına ayrı ayrı kişiselleştirilmiş deneyimler sunarak sağlık yönetimini kolaylaştırmayı hedeflemektedir.
+Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları için iki farklı giriş ile kişiselleştirilmiş sağlık deneyimi sunmayı amaçlıyor.
 
-Hasta Paneli Özellikleri:
+🩺 Hasta Paneli:
 
-Profil Yönetimi: Kişisel ve sağlık bilgileri kolayca güncellenebilir.
+👤 Profil Sayfası: Kullanıcılar kişisel ve sağlık bilgilerini ekleyip düzenleyebiliyor.
 
-Randevu Sistemi: Kayıtlı doktorlar arasından seçim yapılarak hızlı ve detaylı randevu oluşturma.
+📅 Randevu Sistemi: Sistemde kayıtlı doktorlar arasından seçim yaparak randevu oluşturulabiliyor ve detaylara erişilebiliyor.
 
-İlaç Takibi: Belirlenen ilaç saatlerinde anlık bildirimler ile hatırlatma.
+💊 İlaç Takip Sistemi: Belirlenen ilaç saatlerinde bildirim gönderimi ile kullanıcıya ilaç hatırlatması sağlanıyor.
 
-Anlık Sohbet: Hasta ve doktorlar arasında güvenli birebir iletişim.
+💬 Sohbet Modülü: Sistemdeki kişilerle birebir mesajlaşma imkanı sunuluyor.
 
-Doktor Paneli Özellikleri:
+🩻 Doktor Paneli: 🏠 Ana Sayfa: Günlük hasta randevuları ve planlama ekranı.
 
-Günlük Planlama: Hasta randevuları ve günlük iş akışı yönetimi.
+📋 Randevu Listesi: Saat ve hasta bilgisiyle detaylı günlük randevu görünümü.
 
-Randevu Detayları: Saat bazlı ve hasta bilgileriyle zenginleştirilmiş liste görünümü.
+💬 Sohbet Modülü: Sistemdeki kişilerle birebir mesajlaşma imkanı sunuluyor.
 
-Sohbet Modülü: Hastalarla etkili iletişim imkanı.
+⚙️ Kullanılan Teknolojiler: 🔐 Firebase Auth – Kimlik doğrulama
 
-Teknoloji ve Mimari:
+☁️ Cloud Firestore – Gerçek zamanlı veri tabanı
 
-Firebase Auth & Cloud Firestore: Güçlü kimlik doğrulama ve gerçek zamanlı veri senkronizasyonu.
+🗂️ Firebase Storage – Profil görselleri ve medya yüklemeleri
 
-Firebase Storage: Medya ve profil görsellerinin güvenli depolanması.
+📦 Hive – Lokal veri yönetimi
 
-Hive: Lokal veri yönetimi ile performans optimizasyonu.
+🔔 Flutter Local Notification – İlaç hatırlatma bildirimleri
 
-Flutter Local Notification: Zamanında ilaç hatırlatmaları.
+🔧 Teknik Mimariler 🧱 Clean Architecture yaklaşımı
 
-Yazılım Mimarisi: Clean Architecture prensipleriyle modüler ve sürdürülebilir yapı.
+🧪 Dependency Injection
 
-Dependency Injection & Cubit: Yüksek performanslı ve ölçeklenebilir state management.
+🔄 State Management: Cubit
 
 📱 Hasta Paneli
 
