@@ -38,3 +38,10 @@ Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları
 🧪 Dependency Injection (Service Locator yaklaşımı)
 
 🔄 State Management: Cubit (flutter_bloc)
+
+
+## 📹 Video Tanıtım:
+
+<video width="270" height="600" controls>
+  <source src="resource/video.mp4" type="video/mp4">
+</video>
