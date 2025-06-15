@@ -40,9 +40,35 @@ Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları
 🔄 State Management: Cubit (flutter_bloc)
 
 
-3>📱 Uygulama Ekran Görüntüleri</h3>
+3>📱 Hasta Paneli</h3>
 
 <p float="left">
-  <img src="resource/screen.jpg/" width="200">
-  <img src="resource/screens.jpg/" width="200">
+  <img src="resource/login.jpg" width="200">
+  <img src="resource/hasta_sign_up.jpg" width="200">
+  <img src="resource/doctor_sign_up.jpg" width="200">
+  <img src="resource/create_profile.jpg" width="200">
+  <img src="resource/add_profile.jpg" width="200">
+  <img src="resource/profile.jpg" width="200">
+  <img src="resource/add_appointment.jpg" width="200">
+  <img src="resource/create_appointment.jpg" width="200">
+  <img src="resource/all_appointment.jpg" width="200">
+  <img src="resource/appointment_detail.jpg" width="200">
+  <img src="resource/appointment_section.jpg" width="200">
+  <img src="resource/appointmetn_complete.jpg" width="200">
+  <img src="resource/medicine.jpg" width="200">
+  <img src="resource/medicine_view.jpg" width="200">
+  <img src="resource/chat.jpg" width="200">
+</p>
+
+3>📱 Doktor Paneli</h3>
+
+<p float="left">
+  <img src="resource/doctor_view.jpg" width="200">
+    <img src="resource/add_note.jpg" width="200">
+    <img src="resource/all_note.jpg" width="200">
+    <img src="resource/doctor_appointment.jpg" width="200">
+    <img src="resource/hasta_detay.jpg" width="200">
+
+
+
 </p>
