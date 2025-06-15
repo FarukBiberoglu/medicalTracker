@@ -40,7 +40,7 @@ Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları
 🔄 State Management: Cubit (flutter_bloc)
 
 
-3>📱 Hasta Paneli</h3>
+📱 Hasta Paneli
 
 <p float="left">
   <img src="resource/login.jpg" width="200">
@@ -60,7 +60,7 @@ Son dönemde geliştirdiğim bu mobil uygulama, doktor ve hasta kullanıcıları
   <img src="resource/chat.jpg" width="200">
 </p>
 
-3>📱 Doktor Paneli</h3>
+📱 Doktor Paneli
 
 <p float="left">
   <img src="resource/doctor_view.jpg" width="200">
